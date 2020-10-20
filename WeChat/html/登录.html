@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="../scss/首页.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_d79si62zfh8.css">
+</head>
+
+<body>
+    <div class="allWarp">
+
+        <div class="leftNav">
+            <div class="logoWarp">
+                <a href="首页.html">
+                    <div class="headLogo"><img src="../img/top.png" alt=""></div>
+                </a>
+            </div>
+            <div class="logoWarp">
+                <a href="#">
+                    <div class="headLogo"><img src="../img/logo.jpg" alt=""></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="midWarp">
+            <div class="input-group">
+                <input type="text" class="form-control">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">搜索</button>
+                </span>
+            </div>
+
+            <div class="chatList">
+
+            </div>
+        </div>
+
+        <div class="rightNav">
+            <div class="mianBox">
+                <div class="load">登录</div>
+                <div class="input-control icon iconfont icon-Icon_wode">
+                    <input type="text" class="username " placeholder="用户名">
+                </div>
+                <div class="input-control icon iconfont icon-mima">
+                    <input type="password" class="password" placeholder="密码">
+                </div>
+                <div class="loadPost"><button class="login">登录</button><button><a href="../html/注册.html">注册</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script>
+    var login = document.querySelector('.login');
+    var username = document.querySelector(".username");
+    var password = document.querySelector(".password");
+    login.onclick = function () {
+        var data = {
+            username: username.value,
+            password: password.value
+        }
+        var reg = /^([a-zA-Z]{1})([a-zA-Z0-9]{5,})/g
+        if (data.username == '' || data.password == '') {
+            alert('有信息未填！')
+            return;
+        } else if (!(reg.test(data.username))) {
+            alert('用户名格式有误，必须字母开头且不少于六位！')
+            return;
+        } else if (data.password.length < 6) {
+            alert('密码长度不少于六位')
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "http://118.24.25.7/chat_api/interface/login.php",
+            data: data,
+            success: function (res) {
+                console.log(res)
+                if (res.code == 0) {
+                    localStorage.setItem('user_id',res.data.id)
+                    localStorage.setItem('username',res.data.username)
+                    localStorage.setItem('nickname',res.data.nickname)
+                    localStorage.setItem('sign_str',res.data.sign_str)
+                    alert("登录成功")
+                    location.href = "首页.html";
+                }else{
+                    alert('不存在该账号或密码有误！')
+                }
+            }
+        });
+    }
+</script>
+
+</html>

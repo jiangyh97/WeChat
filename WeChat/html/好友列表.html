@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>好友</title>
+    <link rel="stylesheet" href="../scss/首页.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_sxw6nzfg36i.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_0ljly0keq7xa.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_s9uo6e689qa.css">
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .allWarp .rightNav {
+            background-image: url('../img/srbg.png');
+        }
+
+        .allWarp .rightNav .loadPostH {
+            position: absolute;
+            top: 10px;
+            left: 310px;
+        }
+
+        .friendWarp {
+            width: 80px;
+            height: 80px;
+            /* background-color: #eee; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .friendWarp .icon-- {
+            width: 60px;
+            height: 60px;
+            font-size: 60px;
+            color: wheat;
+        }
+
+        .friendList {
+            width: 100%;
+            height: 620px;
+            overflow-y: auto;
+        }
+
+        .newFriend {
+            /* position: relative; */
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            top: 80px;
+        }
+
+        .oldFriend {
+            width: 100%;
+            height: 570px;
+            /* background-color: pink; */
+        }
+
+        .friendItem {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            /* background-color: blue; */
+        }
+
+        .friendHead {
+            width: 30px;
+            height: 30px;
+            /* background-color: yellowgreen; */
+        }
+        .friendHead img{
+            width: 30px;
+            height: 30px;
+        }
+        .friendMsg {
+            height: 30px;
+            width: 150px;
+            font-size: 12px;
+        }
+
+        .delFriend {
+            height: 30px;
+            width: 30px;
+            font-size: 12px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .reddot {
+            width: 15px;
+            height: 15px;
+            border-radius: 100px;
+            background-color: rgb(255, 0, 0);
+            position: absolute;
+            top: 80px;
+            left: 85px;
+        }
+
+        .newFriend .newF {
+            width: 140px;
+            height: 100%;
+            line-height: 50px;
+            cursor: pointer;
+        }
+
+        .newFriend img {
+            display: inline-block;
+        }
+
+        .allWarp .rightNav {
+            flex-wrap: wrap;
+            display: block;
+        }
+
+        .rightNav .requestList {
+            width: 100%;
+            height: 10%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: wheat;
+        }
+
+        .rightNav .requestList .box {
+            width: 112px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .rightNav .requestList .inforM {
+            width: 166px;
+        }
+
+        .rightNav .requestList .agree {
+            background-color: greenyellow;
+        }
+
+        .rightNav .requestList .refuse {
+            background-color: yellow
+        }
+
+        .rightNav .requestList .neverAgree {
+            background-color: red;
+        }
+        .allWarp .leftNav .logout{
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            /* background-color: pink; */
+            
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .allWarp .leftNav .logout .out{
+            width: 60px;
+            height: 60px;
+            font-size: 60px;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="allWarp">
+        <div class="leftNav">
+            <div class="logoWarp">
+                <a href="首页.html">
+                    <div class="headLogo"><img src="../img/top.png" alt=""></div>
+                </a>
+            </div>
+            <div class="logoWarp">
+                <a href="#">
+                    <div class="headLogo"><img src="../img/logo.jpg" alt=""></div>
+                </a>
+            </div>
+
+            <div class="friendWarp">
+                <a href="好友列表.html">
+                    <div class="friend icon iconfont icon--"></div>
+                </a>
+            </div>
+            <!-- 聊天窗口入口 -->
+            <a href="聊天.html">
+                <div class="talkIn">
+                    <div class="talk icon iconfont icon-chichi"></div>
+                </div>
+            </a>
+
+            <div class="logout">
+                <div class="out icon iconfont icon-f-run-taopao"></div>
+            </div>
+        </div>
+
+
+        <div class="midWarp">
+            <div class="input-group">
+                <input type="text" class="friend_text" placeholder="">
+                <span class="input-group-btn">
+                    <button class="btn" type="button">搜索</button>
+                </span>
+            </div>
+
+            <div class="friendList">
+                <div class="newFriend">
+                    <img src="../img/newfriend.png">
+                    <div class="newF">新的朋友</div>
+                </div>
+                <div class="oldFriend">
+                   
+                </div>
+            </div>
+        </div>
+        <div class="rightNav" style="align-items: unset;"></div>
+    </div>
+
+</body>
+<script>
+    var friendWarp = document.querySelector('.friendWarp')
+    var rightNav = document.querySelector('.rightNav')
+    var newFriend = document.querySelector('.newFriend');
+    var id = localStorage.getItem('user_id');
+    // console.log(id)
+    var sign_str = localStorage.getItem('sign_str');
+    
+    // 获取申请，处理申请板块
+    function clx() {
+        // var request_id = [];
+        var data = {
+            user_id: id,
+            sign_str: sign_str
+        }
+        $.ajax({
+
+            url: 'http://118.24.25.7/chat_api/interface/getFriendRequests.php',
+            type: "get",
+            data: data,
+            timeout: 5000,//五秒后废弃询问
+            success: function (res) {
+                rightNav.innerHTML = "";
+                if (res.code == 0) {
+                    // newFriend.innerHTML += `<div class="reddot"></div>`;
+                    console.log('sussess:', res.msg);
+                    // 存request_id
+                    for (var i = 0; i < res.data.length; i++) {
+                        // request_id.push(res.data[i].request_id)
+                        rightNav.innerHTML += `
+                            <div class="requestList">
+                                <div class="inforM">
+                                    <div class="reqId">ID:${res.data[i].user_id}</div>
+                                    <div class="reqNickname">昵称:${res.data[i].nickname}</div>
+                                </div>
+                                <div class="box agree">同意</div>
+                                <div class="box refuse">拒绝</div>
+                                <div class="box neverAgree">拒绝并不再接受</div>
+                            </div>`;
+
+                        var request_id = res.data[i].request_id
+                        var from_user_id = res.data[i].user_id
+                        var process_result = '';
+                        $('.agree').click(function () {
+                            process_result = 1;
+                            // console.log(process_result)
+                            handle(process_result)
+                            var fj = $(this).parent();
+                            fj.remove();
+                            // getFriend();
+                        });
+                        $('.refuse').click(function () {
+                            process_result = 2;
+                            // console.log(process_result)
+                            handle(process_result)
+                            var fj = $(this).parent();
+                            fj.remove();
+                        });
+                        $('.neverAgree').click(function () {
+                            process_result = 3;
+                            // console.log(process_result)
+                            handle(process_result)
+                            var fj = $(this).parent();
+                            fj.remove();
+                        });
+
+                        function handle(process_result) {
+                            var data2 = {
+                                sign_str: sign_str,
+                                user_id: id,
+                                from_user_id: from_user_id,
+                                request_id: request_id,
+                                process_result: process_result
+                            }
+                            // console.log(data2)
+                            $.ajax({
+                                type: "post",
+                                url: "http://118.24.25.7/chat_api/interface/processFriendRequest.php",
+                                data: data2,
+                                success: function (res) {
+                                    if (res.code == 0) {
+                                        // console.log(1)
+                                        console.log(res.msg)
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            },
+            complete: function () {
+                // clx()
+            }
+        });
+    }
+    clx();
+
+    // 获取好友列表
+    var oldFriend = document.querySelector('.oldFriend')
+    function getFriend() {
+        var data = {
+            sign_str: sign_str,
+            user_id: id
+        }
+        $.ajax({
+            url: "http://118.24.25.7/chat_api/interface/getFriends.php",
+            type: "get",
+            data: data,
+            success: function (res) {
+                if (res.code == 0) {
+                    console.log(res)
+                    for (var i = 0; i < res.data.length; i++) {
+                        oldFriend.innerHTML += `
+                        <div class="friendItem">
+                            <div class="friendHead">  <img src="http://118.24.25.7/chat_api${res.data[i].head_logo}"></div>
+                            <div class="friendMsg">
+                                <div class="friendId">ID：${res.data[i].user_id}</div>
+                                <div class="friendNickname">昵称：${res.data[i].nickname}</div>
+                            </div>
+                            <div class="delFriend">删除</div>
+                        </div>
+                        `;
+                        // 删除好友
+
+                        // var delFriend = document.querySelectorAll('.delFriend');
+                        // console.log(delFriend);
+                        $('.delFriend').click(function () {
+                            var strId = $(this).parent().children().children(".friendId");
+                            var friend_id = strId[0].innerHTML.slice(3);
+                            console.log(friend_id);
+                            var data3 = {
+                                sign_str: sign_str,
+                                user_id: id,
+                                friend_id: friend_id
+                            }
+                            var fj = $(this).parent();
+                            console.log(fj)
+                            fj.remove();
+                            console.log(data3)
+                            $.ajax({
+                                type: "post",
+                                url: "http://118.24.25.7/chat_api/interface/removeFriend.php",
+                                data: data3,
+                                success: function (res) {
+                                    if (res.code == 0) {
+                                        console.log(res.data)
+                                    }
+                                }
+                            })
+                        });
+                    }
+                }
+            }
+        })
+    }
+    getFriend();
+
+
+    // 登出
+    var logout = document.querySelector('.logout')
+    logout.onclick = function(){
+       
+        var data = {
+            sign_str:sign_str,
+            user_id:id
+        }
+        $.ajax({
+            type:"post",
+            url:"http://118.24.25.7/chat_api/interface/logout.php",
+            data:data,
+            success:function(res){
+                console.log(res.msg);
+                location.href = "登录.html";
+            }
+        })
+    }
+
+
+</script>
+
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <link rel="stylesheet" href="../scss/首页.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_d79si62zfh8.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_sxw6nzfg36i.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_0ljly0keq7xa.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_s9uo6e689qa.css">
+    <style>
+        .allWarp .rightNav {
+            background-image: url('../img/srbg.png');
+        }
+
+        .allWarp .rightNav .loadPostH {
+            position: absolute;
+            top: 10px;
+            left: 310px;
+        }
+
+        .allWarp .leftNav .friendWarp {
+            width: 80px;
+            height: 80px;
+            /* background-color: #eee; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .allWarp .leftNav .friendWarp .icon-- {
+            width: 60px;
+            height: 60px;
+            font-size: 60px;
+            color: wheat;
+            position: relative;
+        }
+
+        .reddot {
+            width: 15px;
+            height: 15px;
+            border-radius: 100px;
+            background-color: rgb(255, 0, 0);
+            position: absolute;
+            top: 21%;
+            left: 37%;
+        }
+
+        .allWarp .leftNav .logout {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            /* background-color: pink; */
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .allWarp .leftNav .logout .out {
+            width: 60px;
+            height: 60px;
+            font-size: 60px;
+            color: #ffffff;
+        }
+        .leftNav .talkIn .talk .reddotMsg{
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 100px;
+            background-color: rgb(255, 0, 0);
+            top:25px;
+            left: 74%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="allWarp">
+        <!-- 头像预留窗口 -->
+        <div class="leftNav">
+            <div class="logoWarp">
+                <a href="首页.html">
+                    <div class="headLogo"><img src="../img/top.png" alt=""></div>
+                </a>
+            </div>
+            <div class="logoWarp">
+                <a href="#">
+                    <div class="headLogo"><img src="../img/logo.jpg" alt=""></div>
+                </a>
+            </div>
+            <!-- 好友列表入口 -->
+            <div class="friendWarp">
+                <a href="好友列表.html">
+                    <div class="friend icon iconfont icon--">
+                        <!-- <div class="reddot"></div> -->
+                    </div>
+                </a>
+            </div>
+            <!-- 聊天窗口入口 -->
+            <a href="聊天.html">
+                <div class="talkIn">
+                    <div class="talk icon iconfont icon-chichi"></div>
+                </div>
+            </a>
+
+            <!-- 登出 -->
+            <div class="logout">
+                <div class="out icon iconfont icon-f-run-taopao"></div>
+            </div>
+        </div>
+
+        <div class="midWarp">
+            <div class="input-group">
+                <input type="text" class="friend_text" placeholder="输入用户名或关键词">
+                <span class="input-group-btn">
+                    <button class="btn" type="button">搜索</button>
+                </span>
+            </div>
+
+            <div class="chatList">
+                <div class="listW" style="height: 0;">
+                    <div class="result">
+                        <div class="addId"></div>
+                        <div class="addNickname"></div>
+                    </div>
+                    <div class="add1"><button class="add"></button></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rightNav">
+            <div class="loadPostH">
+                <button><a href="../html/登录.html">登录</a></button>
+                <button><a href="../html/注册.html">注册</a></button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../js/首页.js"></script>
+<script>
+    var talk = document.querySelector('.talk')
+    var friend = document.querySelector('.friend')
+    // 长轮询接受好友申请
+    var id = localStorage.getItem('user_id');
+    // console.log(id)
+    var sign_str = localStorage.getItem('sign_str');
+    // console.log(sign_str)
+    function clx() {
+        var data = {
+            user_id: id,
+            sign_str: sign_str
+        }
+        $.ajax({
+            url: 'http://118.24.25.7/chat_api/interface/getFriendRequests.php',
+            type: "get",
+            data: data,
+            timeout: 10000,//五秒后废弃询问
+            success: function (res) {
+                if (res.code == 0) {
+                    // localStorage.setItem('')
+                    console.log('sussess:', res.msg);
+                    friend.innerHTML = `<div class="reddot"></div>`;
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+            ,
+            complete: function () {
+                clx()
+            }
+        });
+    }
+    clx();
+
+
+    // 登出
+    var logout = document.querySelector('.logout')
+    logout.onclick = function () {
+
+        var data = {
+            sign_str: sign_str,
+            user_id: id
+        }
+        $.ajax({
+            type: "post",
+            url: "http://118.24.25.7/chat_api/interface/logout.php",
+            data: data,
+            success: function (res) {
+                console.log(res.msg);
+                alert('退出登录')
+                location.href = "登录.html";
+            }
+        })
+    }
+
+</script>
+
+</html>

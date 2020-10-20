@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天</title>
+    <link rel="stylesheet" href="../scss/首页.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_sxw6nzfg36i.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_0ljly0keq7xa.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1949211_s9uo6e689qa.css">
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .allWarp .rightNav {
+            background-image: url('../img/srbg.png');
+        }
+
+        .allWarp .rightNav .loadPostH {
+            position: absolute;
+            top: 10px;
+            left: 310px;
+        }
+
+        .friendWarp {
+            width: 80px;
+            height: 80px;
+            /* background-color: #eee; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .friendWarp .icon-- {
+            width: 60px;
+            height: 60px;
+            font-size: 60px;
+            color: wheat;
+        }
+
+        .friendList {
+            width: 100%;
+            height: 620px;
+            overflow-y: auto;
+        }
+
+        .newFriend {
+            /* position: relative; */
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            top: 80px;
+        }
+
+        .oldFriend {
+            width: 100%;
+            height: 570px;
+            /* background-color: pink; */
+        }
+
+        .friendItem {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            /* background-color: blue; */
+        }
+
+        .friendHead {
+            width: 30px;
+            height: 30px;
+            /* background-color: yellowgreen; */
+        }
+        .friendHead img{
+            width: 30px;
+            height: 30px;
+        }
+        .friendMsg {
+            height: 30px;
+            width: 150px;
+            font-size: 12px;
+        }
+
+        .delFriend {
+            height: 30px;
+            width: 30px;
+            font-size: 12px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .reddot {
+            width: 15px;
+            height: 15px;
+            border-radius: 100px;
+            background-color: rgb(255, 0, 0);
+            position: absolute;
+            top: 80px;
+            left: 85px;
+        }
+
+        .newFriend .newF {
+            width: 140px;
+            height: 100%;
+            line-height: 50px;
+            cursor: pointer;
+        }
+
+        .newFriend img {
+            display: inline-block;
+        }
+
+        .allWarp .rightNav {
+            flex-wrap: wrap;
+            display: block;
+        }
+
+        .rightNav .requestList {
+            width: 100%;
+            height: 10%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: wheat;
+        }
+
+        .rightNav .requestList .box {
+            width: 112px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .rightNav .requestList .inforM {
+            width: 166px;
+        }
+
+        .rightNav .requestList .agree {
+            background-color: greenyellow;
+        }
+
+        .rightNav .requestList .refuse {
+            background-color: yellow
+        }
+
+        .rightNav .requestList .neverAgree {
+            background-color: red;
+        }
+
+        .allWarp .leftNav .logout {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            /* background-color: pink; */
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .allWarp .leftNav .logout .out {
+            width: 60px;
+            height: 60px;
+            font-size: 60px;
+            color: #ffffff;
+        }
+
+        .rightNav .talkHead {
+            width: 100%;
+            height: 80px;
+            text-align: center;
+            line-height: 80px;
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        .rightNav .content {
+            width: 698px;
+            height: 619px;
+            border: 1px solid black;
+            position: relative;
+        }
+
+        .rightNav .content .section {
+            position: relative;
+            overflow-y: auto;
+            height: 518px;
+            width: 100%;
+            background-color: #ffffff;
+            /* display: flex; */
+            flex-wrap: wrap;
+
+        }
+
+        .rightNav .content .myMsg {
+            width: 80%;
+            height: 98px;
+            /* background-color: chartreuse; */
+        }
+
+        .rightNav .content .section .msgBoxr {
+            width: 80%;
+            flex-wrap: wrap;
+            float: right;
+        }
+
+        .rightNav .content .section .msgBoxl {
+            width: 80%;
+            flex-wrap: wrap;
+            float: left;
+        }
+
+        .rightNav .content .sub {
+            position: absolute;
+            width: 137px;
+            height: 102px;
+        }
+
+        .rightNav .content .section .msgBoxr .myT {
+            text-align: left;
+            /* width: 80%; */
+            float: right;
+            margin-left: 20%;
+            background-color: blue;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .rightNav .content .section .msgBoxl .otherT {
+            text-align: left;
+            /* width: 80%; */
+            float: left;
+            margin-bottom: 5px;
+            background-color: greenyellow;
+            border-radius: 5px;
+        }
+
+        .leftNav .talkIn .talk .reddotMsg {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 100px;
+            background-color: rgb(255, 0, 0);
+            top: 25px;
+            left: 74%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="allWarp">
+        <div class="leftNav">
+            <div class="logoWarp">
+                <a href="首页.html">
+                    <div class="headLogo"><img src="../img/top.png" alt=""></div>
+                </a>
+            </div>
+            <div class="logoWarp">
+                <a href="#">
+                    <div class="headLogo"><img src="../img/logo.jpg" alt=""></div>
+                </a>
+            </div>
+
+            <div class="friendWarp">
+                <a href="好友列表.html">
+                    <div class="friend icon iconfont icon--"></div>
+                </a>
+            </div>
+
+            <!-- 聊天窗口入口 -->
+            <a href="聊天.html">
+                <div class="talkIn">
+                    <div class="talk icon iconfont icon-chichi"></div>
+                </div>
+            </a>
+
+            <div class="logout">
+                <div class="out icon iconfont icon-f-run-taopao"></div>
+            </div>
+        </div>
+
+
+        <div class="midWarp">
+            <div class="input-group">
+                <input type="text" class="friend_text" placeholder="">
+                <span class="input-group-btn">
+                    <button class="btn" type="button">搜索</button>
+                </span>
+            </div>
+
+            <div class="friendList">
+                <div class="newFriend">
+                    <img src="../img/newfriend.png">
+                    <div class="newF">新的朋友</div>
+                </div>
+                <div class="oldFriend">
+                </div>
+            </div>
+        </div>
+        <!-- style="align-items: unset;" -->
+        <div class="rightNav">
+            <div class="talkHead"></div>
+            <!-- <div class="talkpage"></div> -->
+            <div class="content">
+                <div class="section">
+                   
+                </div>
+                <input type="text" value="" class="myMsg">
+                <button type="button" class="sub">发送</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    var talk = document.querySelector('.talk')
+    var section = document.querySelector('.section')
+    var talkHead = document.querySelector('.talkHead')
+    var friendWarp = document.querySelector('.friendWarp')
+    var rightNav = document.querySelector('.rightNav')
+    var newFriend = document.querySelector('.newFriend');
+    var id = localStorage.getItem('user_id');
+
+    var sign_str = localStorage.getItem('sign_str');
+    var sub = document.querySelector('.sub')
+
+
+    // 获取好友列表
+    var oldFriend = document.querySelector('.oldFriend')
+    function getFriend() {
+        var data = {
+            sign_str: sign_str,
+            user_id: id
+        }
+        $.ajax({
+            url: "http://118.24.25.7/chat_api/interface/getFriends.php",
+            type: "get",
+            data: data,
+            success: function (res) {
+                if (res.code == 0) {
+                    // console.log(res)
+                    for (var i = 0; i < res.data.length; i++) {
+                        oldFriend.innerHTML += `
+                        <div class="friendItem">
+                            <div class="friendHead"> <img src="http://118.24.25.7/chat_api${res.data[i].head_logo}"></div>
+                            <div class="friendMsg">
+                                <div class="friendId">ID：${res.data[i].user_id}</div>
+                                <div class="friendNickname">昵称：${res.data[i].nickname}</div>
+                            </div>
+                            <div class="delFriend">删除</div>
+                        </div>
+                        `;
+                        // 删除好友
+                        // var delFriend = document.querySelectorAll('.delFriend');
+                        // console.log(delFriend);
+                        $('.delFriend').click(function () {
+                            var strId = $(this).parent().children().children(".friendId");
+                            var friend_id = strId[0].innerHTML.slice(3);
+                            // console.log(friend_id);
+                            var data3 = {
+                                sign_str: sign_str,
+                                user_id: id,
+                                friend_id: friend_id
+                            }
+                            var fj = $(this).parent();
+                            // console.log(fj)
+                            fj.remove();
+                            // console.log(data3)
+                            $.ajax({
+                                type: "post",
+                                url: "http://118.24.25.7/chat_api/interface/removeFriend.php",
+                                data: data3,
+                                success: function (res) {
+                                    if (res.code == 0) {
+                                        console.log(res.data)
+                                    }
+                                }
+                            })
+                        });
+                        $('.friendItem').click(function () {
+                            section.innerHTML = "";
+                            var strNick = $(this).children().children(".friendNickname");
+                            var nickName2 = strNick[0].innerHTML.slice(3);
+                            talkHead.innerHTML = nickName2;
+                            var strId2 = $(this).children().children(".friendId");
+                            var receive_user_id = strId2[0].innerHTML.slice(3);
+                            // console.log(receive_user_id);
+                            // 将我选中的好友的ID发给sub,以绑定发送个消息板块；
+                            sub.dataset.id = receive_user_id;
+                            // 将我选中的好友ID设置给聊天渲染区；
+                            section.dataset.id = receive_user_id;
+                            // console.log(sub.getAttribute("data-id"))
+                            getChatHistory();
+                        })
+                    }
+                }
+            }
+        })
+    }
+    getFriend();
+
+    // 发送按钮
+    // 发送消息
+    $('.sub').click(function () {
+        receive_user_id = sub.getAttribute("data-id");
+        var myMsg = document.querySelector('.myMsg')
+        // console.log(myMsg)
+        var message = myMsg.value;
+        section.innerHTML += `<div class="msgBoxr"><span class="myT">${message}</span></div>`;
+        myMsg.value = '';
+        // localStorage.getItem('nickname')
+        // console.log(str4)
+        var data4 = {
+            sign_str: sign_str,
+            user_id: id,
+            receive_user_id: receive_user_id,
+            message: message
+        }
+        console.log(receive_user_id)
+        console.log(data4)
+        // console.log(receive_user_id)
+        $.ajax({
+            type: "post",
+            url: "http://118.24.25.7/chat_api/interface/sendMessage.php",
+            data: data4,
+            success: function (res) {
+                // console.log(res)
+                if (res.code == 0) {
+                    console.log(res.msg)
+                    $('.section').scrollTop($('.section')[0].scrollHeight);
+                }
+            }
+        })
+    })
+
+    // 获取消息
+    function clxMsg() {
+        nowFriend_id = section.getAttribute("data-id");
+        var data = {
+            user_id: id,
+            sign_str: sign_str
+        }
+        $.ajax({
+            url: 'http://118.24.25.7/chat_api/interface/getMessages.php',
+            type: "get",
+            data: data,
+            timeout: 10000,//十秒后废弃询问
+            success: function (res) {
+                if (res.code == 0) {
+                    console.log(res)
+                    console.log('sussess:', res.msg);
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (nowFriend_id == res.data[i].user_id) {
+                            talkHead.innerHTML = res.data[i].nickname;
+                            section.innerHTML += `<div class="msgBoxl"><span class="otherT">${res.data[i].message}</span></div>`;
+                            sub.dataset.id = res.data[i].user_id
+                            // section.dataset.id = res.data[i].user_id
+                            $('.section').scrollTop($('.section')[0].scrollHeight);
+                        }
+                        else{
+                            talkHead.innerHTML = res.data[i].nickname;
+                            section.dataset.id = res.data[i].user_id
+                            sub.dataset.id = res.data[i].user_id
+                            // section.innerHTML += '';
+                            getChatHistory();
+                            section.innerHTML += `<div class="msgBoxl"><span class="otherT">${res.data[i].message}</span></div>`;
+                            $('.section').scrollTop($('.section')[0].scrollHeight);
+                            
+                        }
+                    }
+                    // getChatHistory();
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+            ,
+            complete: function () {
+                clxMsg()
+            }
+        });
+    }
+    clxMsg();
+    // 获取历史消息
+    function getChatHistory() {
+        section.innerHTML = '';
+        receive_user_id = section.getAttribute("data-id");
+        var data9 = {
+            sign_str: sign_str,
+            user_id: id,
+            friend_id: receive_user_id
+        }
+        $.ajax({
+            url: 'http://118.24.25.7/chat_api/interface/getChatHistory.php',
+            type: 'get',
+            data: data9,
+            success: function (res) {
+                if (res.code == 0) {
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (res.data[i].user_id == id) {
+                            section.innerHTML += `<div class="msgBoxr"><span class="myT">${res.data[i].message}</span></div>`;
+                        } else {
+                            section.innerHTML += `<div class="msgBoxl"><span class="otherT">${res.data[i].message}</span></div>`;
+                        }
+                        $('.section').scrollTop($('.section')[0].scrollHeight);
+                    }
+                    
+                }
+            }
+        });
+
+    }
+
+    // 登出
+    var logout = document.querySelector('.logout')
+    logout.onclick = function () {
+
+        var data = {
+            sign_str: sign_str,
+            user_id: id
+        }
+        $.ajax({
+            type: "post",
+            url: "http://118.24.25.7/chat_api/interface/logout.php",
+            data: data,
+            success: function (res) {
+                console.log(res.msg);
+                location.href = "登录.html";
+            }
+        })
+    }
+
+
+</script>
+
+</html>
